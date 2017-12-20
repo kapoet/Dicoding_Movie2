@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Dicoding_Movie2</string>
+
+    <string name="navigation_drawer_open">Buka navigation drawer</string>
+    <string name="navigation_drawer_close">Tutup navigation drawer</string>
+
+    <string name="action_settings">Pengaturan Bahasa</string>
+    <string name="now_playing">Sekarang Diputar</string>
+    <string name="upcoming">Akan Tayang</string>
+    <string name="search">Pencarian</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Halo blank fragment</string>
+    <string name="detail">Detail</string>
+    <string name="Example">Contoh : Hulk, Comic8 ...</string>
+
+</resources>

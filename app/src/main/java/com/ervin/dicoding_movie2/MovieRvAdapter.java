@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class MovieRvAdapter extends RecyclerView.Adapter<MovieHolder> {
     ArrayList<Movie> listMovie;
     Context context;
-
     public MovieRvAdapter(ArrayList<Movie> listMovie, Context context) {
         this.listMovie = listMovie;
         this.context = context;

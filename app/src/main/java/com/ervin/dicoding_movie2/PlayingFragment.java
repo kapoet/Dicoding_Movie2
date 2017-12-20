@@ -71,7 +71,7 @@ public class PlayingFragment extends Fragment {
                         JSONArray b = a.getJSONArray("results");
                         for (int i=0;i<b.length();i++){
                             JSONObject c = b.getJSONObject(i);
-                            Movie movie = new Movie(c.getString("title"),c.getString("release_date"),c.getString("overview"),c.getString("poster_path"));
+                            Movie movie = new Movie(c.getString("title"),c.getString("release_date"),c.getString("overview"),c.getString("poster_path"),c.getString("id"));
                             dataMovie.add(movie);
                         }
                     } catch (JSONException e) {

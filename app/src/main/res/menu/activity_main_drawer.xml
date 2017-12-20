@@ -16,6 +16,10 @@
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_menu_search"
             android:title="@string/search" />
+        <item
+            android:id="@+id/nav_favorite"
+            android:icon="@drawable/ic_menu_favorite"
+            android:title="@string/search" />
     </group>
 
 </menu>

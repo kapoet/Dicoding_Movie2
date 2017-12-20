@@ -88,7 +88,7 @@ EditText etSearch;
                             JSONArray list = responseObject.getJSONArray("results");
                             for(int i=0;i<list.length();i++){
                                 JSONObject infoMovie = list.getJSONObject(i);
-                                Movie movie = new Movie(infoMovie.getString("title"),infoMovie.getString("release_date"),infoMovie.getString("overview"),infoMovie.getString("poster_path"));
+                                Movie movie = new Movie(infoMovie.getString("title"),infoMovie.getString("release_date"),infoMovie.getString("overview"),infoMovie.getString("poster_path"),infoMovie.getString("id"));
                                 dataMovie.add(movie);
                             }
                         } catch (JSONException e) {

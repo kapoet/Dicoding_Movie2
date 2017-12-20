@@ -123,10 +123,19 @@ public class MainActivity extends AppCompatActivity
             }
                 selected=1;
         } else if (id == R.id.nav_search) {
+            if(selected!=2){
                 b.replace(R.id.framku, new SearchFragment(),"f");
                 b.addToBackStack(null);
                 b.commit();
+            }
                 selected=2;
+        } else if (id == R.id.nav_favorite){
+            if(selected!=3){
+                b.replace(R.id.framku, new FavoriteFragment());
+                b.addToBackStack(null);
+                b.commit();
+            }
+            selected=3;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

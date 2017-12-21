@@ -13,5 +13,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="detail">Detail</string>
     <string name="Example">Example : Hulk, Comic8 ...</string>
+    <string name="favorite">Favorite</string>
 
 </resources>

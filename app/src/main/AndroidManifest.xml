@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ervin.dicoding_movie2">
-
+    <permission android:name="com.ervin.dicoding_movie2.READ_DATABASE" android:protectionLevel="normal"/>
+    <permission android:name="com.ervin.dicoding_movie2.WRITE_DATABASE" android:protectionLevel="normal"/>
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -24,6 +25,12 @@
         <activity
             android:name=".DetailActivity"
              />
+        <provider
+            android:authorities="com.ervin.dicoding_movie2"
+            android:name=".provider.MovieProvider"
+            android:exported="true"
+            android:readPermission="com.ervin.dicoding_movie2.READ_DATABASE"
+            android:writePermission="com.ervin.dicoding_movie2.WRITE_DATABASE" />
     </application>
 
 </manifest>

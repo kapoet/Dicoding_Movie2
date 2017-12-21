@@ -1,16 +1,21 @@
 package com.ervin.dicoding_movie2;
 
 
+import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
+
+import static com.ervin.dicoding_movie2.DatabaseContarct.CONTENT_URI;
 
 
 /**
@@ -19,9 +24,9 @@ import java.util.ArrayList;
 public class FavoriteFragment extends Fragment {
     RecyclerView rvPlaying;
     ArrayList<Movie> dataMovie;
+    private Cursor list;
+    FavoriteAdapter Result;
 
-    MovieRvAdapter Result;
-    MovieHelper movieHelper;
     public FavoriteFragment() {
         // Required empty public constructor
     }
@@ -35,6 +40,7 @@ public class FavoriteFragment extends Fragment {
         rvPlaying = (RecyclerView) v.findViewById(R.id.rv_playing);
         rvPlaying.setHasFixedSize(true);
         getActivity().setTitle("Favorite");
+        Result = new FavoriteAdapter(getContext());
         displayData();
         return v;
     }
@@ -47,13 +53,31 @@ public class FavoriteFragment extends Fragment {
     }
 
     private void displayData() {
-        movieHelper = new MovieHelper(getContext());
-        movieHelper.open();
-        dataMovie = new ArrayList<>();
-        dataMovie = movieHelper.getAllData();
-        movieHelper.close();
         rvPlaying.setLayoutManager(new LinearLayoutManager(getContext()));
-        Result = new MovieRvAdapter(dataMovie,getContext());
-        rvPlaying.setAdapter(Result);
+        new LoadNoteAsync().execute();
+    }
+
+    private class LoadNoteAsync extends AsyncTask<Void, Void, Cursor> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Cursor doInBackground(Void... voids) {
+            Log.d("apa", "doInBackground: "+getContext().getContentResolver().query(CONTENT_URI,null,null,null,null));
+            return getContext().getContentResolver().query(CONTENT_URI,null,null,null,null);
+
+        }
+
+        @Override
+        protected void onPostExecute(Cursor cursor) {
+            super.onPostExecute(cursor);
+
+            list = cursor;
+            Result.setListMovie(list);
+            rvPlaying.setAdapter(Result);
+            Result.notifyDataSetChanged();
+        }
     }
 }

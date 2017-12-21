@@ -1,7 +1,12 @@
 package com.ervin.dicoding_movie2;
 
+import android.database.Cursor;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import static android.provider.BaseColumns._ID;
+import static com.ervin.dicoding_movie2.DatabaseContarct.getColumnInt;
+import static com.ervin.dicoding_movie2.DatabaseContarct.getColumnString;
 
 /**
  * Created by ervin on 12/10/2017.
@@ -12,6 +17,11 @@ public class Movie implements Parcelable {
 
 
     public Movie() {
+    }
+
+    public Movie(String id_movie, int id) {
+        this.id_movie = id_movie;
+        this.id = id;
     }
 
     public Movie(String title, String release, String synopsis, String path_image, String id_movie) {
@@ -116,4 +126,14 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+
+    public Movie(Cursor cursor){
+        this.id = getColumnInt(cursor, _ID);
+        this.title = getColumnString(cursor, DatabaseContarct.MovieColumns.JUDUL);
+        this.release = getColumnString(cursor, DatabaseContarct.MovieColumns.RELEASE);
+        this.synopsis = getColumnString(cursor, DatabaseContarct.MovieColumns.SINOPSIS);
+        this.path_image = getColumnString(cursor, DatabaseContarct.MovieColumns.GAMBAR);
+        this.favorite = getColumnString(cursor, DatabaseContarct.MovieColumns.FAVORITE);
+        this.id_movie = getColumnString(cursor, DatabaseContarct.MovieColumns.ID_MOVIE);
+    }
 }

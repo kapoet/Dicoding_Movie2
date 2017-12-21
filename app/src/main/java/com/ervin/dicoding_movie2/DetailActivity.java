@@ -1,5 +1,8 @@
 package com.ervin.dicoding_movie2;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +18,15 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 
+import static android.provider.BaseColumns._ID;
+import static com.ervin.dicoding_movie2.DatabaseContarct.CONTENT_URI;
+import static com.ervin.dicoding_movie2.DatabaseContarct.MovieColumns.FAVORITE;
+import static com.ervin.dicoding_movie2.DatabaseContarct.MovieColumns.GAMBAR;
+import static com.ervin.dicoding_movie2.DatabaseContarct.MovieColumns.ID_MOVIE;
+import static com.ervin.dicoding_movie2.DatabaseContarct.MovieColumns.JUDUL;
+import static com.ervin.dicoding_movie2.DatabaseContarct.MovieColumns.RELEASE;
+import static com.ervin.dicoding_movie2.DatabaseContarct.MovieColumns.SINOPSIS;
+
 public class DetailActivity extends AppCompatActivity implements View.OnClickListener{
     public static final String DATA_MOVE = "data";
     ImageView ivDetailImage;
@@ -23,9 +35,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     MovieHelper movieHelper;
     String title,sinopsis,relesae,pathImage, id_movie;
     int id = 0;
-    ArrayList<Movie> dataMovie;
     Movie movie;
-    int check=-1;
+    Uri uri;
+    int check =0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,18 +47,25 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         ivDetailImage = (ImageView) findViewById(R.id.iv_detail_poster);
         movieHelper = new MovieHelper(this);
         movieHelper.open();
-        dataMovie = new ArrayList<>();
-        dataMovie = movieHelper.getAllData();
-        movieHelper.close();
         btnFavorite = (Button) findViewById(R.id.btn_favorite);
         tvDetailTitle = (TextView) findViewById(R.id.tv_detail_title);
         tvDetailrelease = (TextView) findViewById(R.id.tv_detail_release);
         tvDetailsynopsis = (TextView) findViewById(R.id.tv_detail_synopsis);
-        movie = getIntent().getParcelableExtra(DATA_MOVE);
-        for(int i=0;i<dataMovie.size();i++){
-            if(dataMovie.get(i).getId_movie().equals(movie.getId_movie())){
-                btnFavorite.setText("Un-favorite");                     //salahnya di databasenya. coba buat idmovienya ntar
-                id = dataMovie.get(i).getId();
+        uri = getIntent().getData();
+        if (uri != null) {
+            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+            if (cursor != null){
+                if(cursor.moveToFirst()) movie = new Movie(cursor);
+                cursor.close();
+                btnFavorite.setText("Un-favortie");
+                id=movie.getId();
+            }
+
+        } else{
+            movie = getIntent().getParcelableExtra(DATA_MOVE);
+            check=checkData();
+            if(check!=0){
+                btnFavorite.setText("Un-favortie");
             }
         }
         title = movie.getTitle();
@@ -54,6 +73,7 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         sinopsis = movie.getSynopsis();
         relesae = movie.getRelease();
         pathImage = movie.getPath_image();
+
         tvDetailTitle.setText(title);
         tvDetailsynopsis.setText(sinopsis);
         tvDetailrelease.setText(relesae);
@@ -63,22 +83,36 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
         btnFavorite.setOnClickListener(this);
     }
 
-    private void checkData() {
-        movieHelper.open();
-        ArrayList<Movie> dataMovi=movieHelper.getAllData();
-        movieHelper.close();
-        for(int i=0;i<dataMovi.size();i++){
-            if(dataMovi.get(i).getId_movie().equals(movie.getId_movie())){
-                id = dataMovi.get(i).getId();
-                break;
-            } else {
-                id = 0;
-            }
+    private int checkData() {
+        Cursor list = getContentResolver().query(CONTENT_URI,null,null,null,null);
+        Log.d("list", "checkData: "+list);
+        if(list!=null){
+            try{
+                ArrayList<Movie> mArrayList = new ArrayList<>();
+                while(list.moveToNext()) {
+                    Movie a = new Movie(list.getString(list.getColumnIndex(ID_MOVIE)),list.getInt(list.getColumnIndex(_ID)));
+                    mArrayList.add(a);
+                }
+                for(int i=0;i<mArrayList.size();i++){
+                    if(mArrayList.get(i).getId_movie().equals(movie.getId_movie())){
+                        id = mArrayList.get(i).getId();
+                        uri = Uri.parse(CONTENT_URI+"/"+id);
+                        break;
+                    } else {
+                        id = 0;
+                    }
 
+                }
+                if(mArrayList.size()<1){
+                    id=0;
+                }
+            } catch (IllegalStateException a){
+
+            }
         }
-        if(dataMovi.size()<1){
-            id=0;
-        }
+
+
+        return id;
     }
 
     @Override
@@ -97,27 +131,27 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View view) {
         if(id!=0)
         {
-            movieHelper.open();
-            movieHelper.delete(id);
-            movieHelper.close();
+            getContentResolver().delete(uri,null,null);
             btnFavorite.setText("Favorite");
             checkData();
         } else{
-            Movie movie = new Movie();
-            movie.setPath_image(pathImage);
-            movie.setSynopsis(sinopsis);
-            movie.setTitle(title);
-            movie.setRelease(relesae);
-            movie.setFavorite("favorite");
-            movie.setId_movie(id_movie);
-            movieHelper.open();
-            movieHelper.insert(movie);
-            movieHelper.close();
+            ContentValues values = new ContentValues();
+            values.put(JUDUL,title);
+            values.put(SINOPSIS,sinopsis);
+            values.put(GAMBAR,pathImage);
+            values.put(RELEASE,relesae);
+            values.put(FAVORITE,"favorite");
+            values.put(ID_MOVIE,id_movie);
+            getContentResolver().insert(CONTENT_URI,values);
             btnFavorite.setText("Un-favorite");
             checkData();
         }
 
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        movieHelper.close();
+    }
 }

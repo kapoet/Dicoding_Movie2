@@ -77,4 +77,30 @@ public class MovieHelper {
     public int delete(int id){
         return database.delete(TABLE_NAME, _ID + " = '"+id+"'", null);
     }
+
+    public Cursor queryByIdProvider(String id){
+        return database.query(TABLE_NAME,null
+                ,_ID + " = ?"
+                ,new String[]{id}
+                ,null
+                ,null
+                ,null
+                ,null);
+    }
+    public Cursor queryProvider(){
+        return database.query(TABLE_NAME
+                ,null
+                ,null
+                ,null
+                ,null
+                ,null
+                ,_ID + " DESC");
+    }
+
+    public long insertProvider(ContentValues values){
+        return database.insert(TABLE_NAME,null,values);
+    }
+    public int deleteProvider(String id){
+        return database.delete(TABLE_NAME,_ID + " = ?", new String[]{id});
+    }
 }

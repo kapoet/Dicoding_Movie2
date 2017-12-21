@@ -1,5 +1,7 @@
 package com.ervin.dicoding_movie2;
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.provider.BaseColumns;
 
 /**
@@ -8,22 +10,37 @@ import android.provider.BaseColumns;
 
 public class DatabaseContarct {
 
-    static String TABLE_NAME = "table_favorite";
+    public static String TABLE_NAME = "table_favorite";
 
-    static final class MovieColumns implements BaseColumns {
+    public static final class MovieColumns implements BaseColumns {
 
 
-        static String JUDUL = "nama";
+        public static String JUDUL = "nama";
         // Mahasiswa nim
-        static String SINOPSIS = "sinopsis";
+        public static String SINOPSIS = "sinopsis";
 
-        static String GAMBAR = "gambar";
+        public static String GAMBAR = "gambar";
 
-        static String RELEASE = "release";
+        public static String RELEASE = "release";
 
-        static String FAVORITE = "favorite";
+        public static String FAVORITE = "favorite";
 
-        static String ID_MOVIE = "id_movie";
+        public static String ID_MOVIE = "id_movie";
 
+    }
+
+    public static final String AUTHORITY = "com.ervin.dicoding_movie2";
+    public static final Uri CONTENT_URI = new Uri.Builder().scheme("content")
+            .authority(AUTHORITY)
+            .appendPath(TABLE_NAME)
+            .build();
+    public static String getColumnString(Cursor cursor, String columnName) {
+        return cursor.getString( cursor.getColumnIndex(columnName) );
+    }
+    public static int getColumnInt(Cursor cursor, String columnName) {
+        return cursor.getInt( cursor.getColumnIndex(columnName) );
+    }
+    public static long getColumnLong(Cursor cursor, String columnName) {
+        return cursor.getLong( cursor.getColumnIndex(columnName) );
     }
 }

@@ -64,6 +64,7 @@ public class FavoriteAdapter extends RecyclerView.Adapter<MovieHolder> {
         if (list == null) return 0;
         return list.getCount();
     }
+
     private Movie getItem(int position){
         if (!list.moveToPosition(position)) {
             throw new IllegalStateException("Position invalid");

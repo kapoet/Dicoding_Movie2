@@ -8,11 +8,18 @@
     <string name="now_playing">Now Playing</string>
     <string name="upcoming">Upcoming</string>
     <string name="search">Search</string>
-
+    <string name="app_first_run">ya</string>
+    <string name="app_first_run2">ya2</string>
+    <string name="click_widget">This movie already release in Cinema from </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="detail">Detail</string>
     <string name="Example">Example : Hulk, Comic8 ...</string>
     <string name="favorite">Favorite</string>
-
+    <string name="content_title">Content title</string>
+    <string name="content_text">Content text</string>
+    <string name="subtext">Play in Cinema</string>
+    <string name="appwidget_text">Playing List</string>
+    <string name="add_widget">Add widget</string>
+    <string name="empty_text">No DATA</string>
 </resources>

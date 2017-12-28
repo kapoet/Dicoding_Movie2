@@ -1,6 +1,8 @@
 package com.ervin.dicoding_movie2;
 
+import android.appwidget.AppWidgetManager;
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -146,7 +148,9 @@ public class DetailActivity extends AppCompatActivity implements View.OnClickLis
             btnFavorite.setText("Un-favorite");
             checkData();
         }
-
+        Intent intent = new Intent(DetailActivity.this, StackWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        sendBroadcast(intent);
     }
 
     @Override

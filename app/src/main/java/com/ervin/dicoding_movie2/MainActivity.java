@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -20,12 +21,23 @@ import android.view.MenuItem;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     int selected=0;
+    AppPreference ap;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ap = new AppPreference(this);
+        long time= System.currentTimeMillis();
+        ap.setFirstRun(time);
+        if (ap.getFirstRun2()==-2){
+            Intent mStartServiceIntent = new Intent(MainActivity.this, PlayingService.class);
+            startService(mStartServiceIntent);
+        }
+        Intent StartServiceIntent = new Intent(MainActivity.this, DailyService.class);
+        startService(StartServiceIntent);
+        Log.d("liat", "onCreate: "+ap.getFirstRun());
         android.support.v4.app.FragmentManager a = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction b = a.beginTransaction();
         Fragment fragmentA = a.findFragmentByTag("f");
@@ -133,4 +145,5 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

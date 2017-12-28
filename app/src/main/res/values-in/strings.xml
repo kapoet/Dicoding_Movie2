@@ -8,10 +8,14 @@
     <string name="now_playing">Sekarang Diputar</string>
     <string name="upcoming">Akan Tayang</string>
     <string name="search">Pencarian</string>
-
+    <string name="app_first_run">ya</string>
+    <string name="app_first_run2">ya2</string>
+    <string name="click_widget">Film ini telah tampil di Bioskop dari </string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Halo blank fragment</string>
     <string name="detail">Detail</string>
     <string name="Example">Contoh : Hulk, Comic8 ...</string>
-
+    <string name="content_title">Content title</string>
+    <string name="content_text">Content text</string>
+    <string name="subtext">Diputar di bioskop</string>
 </resources>

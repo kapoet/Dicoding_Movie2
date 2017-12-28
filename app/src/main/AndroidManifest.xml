@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ervin.dicoding_movie2">
-    <permission android:name="com.ervin.dicoding_movie2.READ_DATABASE" android:protectionLevel="normal"/>
-    <permission android:name="com.ervin.dicoding_movie2.WRITE_DATABASE" android:protectionLevel="normal"/>
+
+    <permission
+        android:name="com.ervin.dicoding_movie2.READ_DATABASE"
+        android:protectionLevel="normal" />
+    <permission
+        android:name="com.ervin.dicoding_movie2.WRITE_DATABASE"
+        android:protectionLevel="normal" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -15,6 +21,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,13 +31,39 @@
         </activity>
         <activity
             android:name=".DetailActivity"
-             />
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
         <provider
-            android:authorities="com.ervin.dicoding_movie2"
             android:name=".provider.MovieProvider"
+            android:authorities="com.ervin.dicoding_movie2"
             android:exported="true"
             android:readPermission="com.ervin.dicoding_movie2.READ_DATABASE"
             android:writePermission="com.ervin.dicoding_movie2.WRITE_DATABASE" />
+
+        <service
+            android:name=".DailyService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".PlayingService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <receiver android:name=".StackWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/stack_widget_info" />
+        </receiver>
+        <service android:name=".WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" ></service>
     </application>
 
 </manifest>

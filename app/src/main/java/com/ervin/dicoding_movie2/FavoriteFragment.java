@@ -65,7 +65,6 @@ public class FavoriteFragment extends Fragment {
 
         @Override
         protected Cursor doInBackground(Void... voids) {
-            Log.d("apa", "doInBackground: "+getContext().getContentResolver().query(CONTENT_URI,null,null,null,null));
             return getContext().getContentResolver().query(CONTENT_URI,null,null,null,null);
 
         }
